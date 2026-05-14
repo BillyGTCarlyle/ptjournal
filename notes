@@ -1,0 +1,57 @@
+#!/bin/bash
+LONGOPTS=previous,date:
+OPTIONS=pd:
+PARSED=$(getopt --options=$OPTIONS --longoptions=$LONGOPTS --name "$0" -- "$@") || exit 2
+eval set -- "$PARSED"
+
+p=0
+
+while true; do
+	case "$1" in
+		-p|--previous)
+			p=1
+			shift
+			;;
+		-d|--date)
+			read -a DATE <<< $2
+			shift 2
+			;;
+		--)
+			shift
+			break
+			;;
+		*)
+			echo "Argument not recognised."
+			exit 3
+			;;
+	esac
+done
+
+if [ $p -eq 1 ]; then
+	DATE=($(date +"%d %m %y" --date="next monday - 14 days"))
+elif [ ! $DATE ]; then
+	DATE=($(date +"%d %m %y" --date="next monday - 7 days"))
+fi
+
+DAY=${DATE[0]}
+MONTH=${DATE[1]}
+YEAR=${DATE[2]}
+
+TARGET="/home/$USER/notes/$YEAR/$MONTH/$DAY"
+
+if [ ! -d "/home/$USER/notes/$YEAR" ]; then
+	echo "/home/$USER/notes/$YEAR does not exist, creating it now."
+	mkdir -p /home/$USER/notes/$YEAR
+fi
+
+if [ ! -d "/home/$USER/notes/$YEAR/$MONTH" ]; then
+	echo "/home/$USER/notes/$YEAR/$MONTH does not exist, creating it now."
+	mkdir -p /home/$USER/notes/$YEAR/$MONTH
+fi
+
+if [ ! -f "$TARGET" ]; then
+	echo "$TARGET does not exist, creating it now."
+	cat /usr/share/notes/template > $TARGET
+fi
+
+vim $TARGET
