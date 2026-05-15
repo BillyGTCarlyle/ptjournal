@@ -13,7 +13,7 @@ Typing `notes` into your terminal will create a new file for the current week an
 Every file is named after the Monday which the week commences on, and is placed in the directory structure: ~/notes/$year/$month/$day.
 The result looks like this:
 ```
-xdxs71@37MDCK3:~/notes$ tree
+user@hostname:~/notes$ tree
 .
 └── 26
     ├── 04
