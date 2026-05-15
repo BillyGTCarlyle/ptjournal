@@ -11,6 +11,21 @@ Will install the script into /usr/local/bin, and the template into /usr/share/no
 
 Typing `notes` into your terminal will create a new file for the current week and open that file in vim.  
 Every file is named after the Monday which the week commences on, and is placed in the directory structure: ~/notes/$year/$month/$day.
+The result looks like this:
+```
+xdxs71@37MDCK3:~/notes$ tree
+.
+└── 26
+    ├── 04
+    │   ├── 20
+    │   └── 27
+    └── 05
+        ├── 04
+        ├── 08
+        └── 11
+
+4 directories, 5 files
+```
 
 To open the previous week's file, use `notes -p`, and to open a specific date's file, `notes -d "%d %m %y"`.
 Opening a specific date is a bit cumbersome, and I need to add something that will correct the date to the Monday of that week, rather than opening a new file if you type in a day which isn't Monday.
